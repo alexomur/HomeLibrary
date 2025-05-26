@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8259215165",
+    "project_id": "homelibrary-e309a",
+    "storage_bucket": "homelibrary-e309a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8259215165:android:20dba2a02124c15833ef54",
+        "android_client_info": {
+          "package_name": "com.example.homelibrary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDviH30015mH-j-cIfN-7wo3vAV_hJDycY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
