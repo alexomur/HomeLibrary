@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Represents a book in the HomeLibrary application.
- * This model is used for interactions with the database.
+ * This model is used for interactions with the database and storage.
  */
 public class Book {
     /**
@@ -33,9 +33,9 @@ public class Book {
     public List<String> authorIds;
 
     /**
-     * URL pointing to the book file in Firebase Storage.
+     * Path in Firebase Storage where the book is stored (e.g. "books/{id}.pdf").
      */
-    public String fileUrl;
+    public String storagePath;
 
     /**
      * Default constructor required for Firebase deserialization.
@@ -45,20 +45,20 @@ public class Book {
     /**
      * Creates a new Book instance.
      *
-     * @param id         Unique book ID
-     * @param title      Book title
+     * @param id          Unique book ID
+     * @param title       Book title
      * @param description Book summary
-     * @param genre      Book genre
-     * @param authorIds  List of related author IDs
-     * @param fileUrl    Download URL for the book file
+     * @param genre       Book genre
+     * @param authorIds   List of related author IDs
+     * @param storagePath Storage path of the book file in Firebase Storage
      */
     public Book(String id, String title, String description, String genre,
-                List<String> authorIds, String fileUrl) {
+                List<String> authorIds, String storagePath) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.genre = genre;
         this.authorIds = authorIds;
-        this.fileUrl = fileUrl;
+        this.storagePath = storagePath;
     }
 }

@@ -1,8 +1,11 @@
 package com.example.homelibrary;
 
+import android.net.Uri;
+
 import com.example.homelibrary.models.Author;
 import com.example.homelibrary.models.Book;
 import com.example.homelibrary.models.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -10,25 +13,41 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 
 /**
- * Manages all database operations for the HomeLibrary application.
- * Handles user authentication, author/book storage, and file uploads.
+ * Manages all database and storage operations for the HomeLibrary application.
  */
 public class DBManager {
     private static final String USERS = "users";
     private static final String AUTHORS = "authors";
     private static final String BOOKS = "books";
 
+    private static DBManager instance;
+
     private FirebaseAuth auth;
     private DatabaseReference db;
     private FirebaseStorage storage;
 
     /**
+     * Returns the single instance of DBManager.
+     */
+    public static synchronized DBManager getInstance() {
+        if (instance == null) {
+            instance = new DBManager();
+        }
+        return instance;
+    }
+
+    /**
      * Initializes Firebase Auth, Realtime Database, and Storage instances.
      */
-    public DBManager() {
+    private DBManager() {
         auth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
@@ -84,27 +103,42 @@ public class DBManager {
     }
 
     /**
-     * Uploads book file to storage, retrieves its URL, and saves book record.
+     * Uploads a book file to storage, sets its download URL, and saves book metadata.
      *
-     * @param book      Book model to store
-     * @param fileBytes Byte array of the book file (e.g., PDF data)
+     * @param book    Book metadata (id and storagePath must be set)
+     * @param fileBytes Byte array of the book file
+     * @return UploadTask for monitoring progress
      */
-    public void saveBook(Book book, byte[] fileBytes) {
-        String path = "books/" + book.id + ".pdf";
-        storage.getReference(path)
-                .putBytes(fileBytes)
-                .continueWithTask(task -> storage.getReference(path).getDownloadUrl())
-                .addOnSuccessListener(uri -> {
-                    book.fileUrl = uri.toString();
-                    db.child(BOOKS).child(book.id).setValue(book);
-                });
+    public UploadTask uploadBook(Book book, byte[] fileBytes) {
+        StorageReference ref = storage.getReference().child(book.storagePath);
+        UploadTask task = ref.putBytes(fileBytes);
+        task.continueWithTask(t -> ref.getDownloadUrl())
+                .addOnSuccessListener(uri ->
+                    db.child(BOOKS).child(book.id).setValue(book)
+                );
+        return task;
+    }
+
+    /**
+     * Downloads a book file from storage, saves it to local file, and records the download.
+     *
+     * @param storagePath Path of the book in Firebase Storage
+     * @param localFile   Local destination File where the book will be saved
+     * @param userId      ID of the user downloading the book
+     * @param bookId      ID of the book being downloaded
+     * @return FileDownloadTask for monitoring progress
+     */
+    public FileDownloadTask downloadBook(String storagePath, File localFile, String userId, String bookId) {
+        StorageReference ref = storage.getReference().child(storagePath);
+        FileDownloadTask task = ref.getFile(localFile);
+        task.addOnSuccessListener(snapshot -> {
+            recordDownload(userId, bookId);
+        });
+        return task;
     }
 
     /**
      * Records that a user has downloaded a specific book.
-     *
-     * @param userId ID of the user
-     * @param bookId ID of the downloaded book
      */
     public void recordDownload(String userId, String bookId) {
         db.child(USERS)
@@ -112,15 +146,5 @@ public class DBManager {
                 .child("downloadedBooks")
                 .child(bookId)
                 .setValue(true);
-    }
-
-    /**
-     * Retrieves the download URL for a stored book file.
-     *
-     * @param bookId ID of the book
-     * @return Task that resolves to the file's download URI
-     */
-    public Task<android.net.Uri> getBookDownloadUrl(String bookId) {
-        return storage.getReference("books/" + bookId + ".pdf").getDownloadUrl();
     }
 }
