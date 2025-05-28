@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Домашняя библиотека</string>
+
+    <string-array name="admin_entities">
+        <item>Пользователи</item>
+        <item>Книги</item>
+        <item>Авторы</item>
+    </string-array>
 </resources>
