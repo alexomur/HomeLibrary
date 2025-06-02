@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "8259215165",
+    "firebase_url": "https://homelibrary-e309a-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "homelibrary-e309a",
     "storage_bucket": "homelibrary-e309a.firebasestorage.app"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.example.homelibrary"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "8259215165-cln5phfc0evetbol0evgsel5toauieab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDviH30015mH-j-cIfN-7wo3vAV_hJDycY"
@@ -20,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8259215165-cln5phfc0evetbol0evgsel5toauieab.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
