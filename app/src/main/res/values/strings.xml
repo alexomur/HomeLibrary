@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Home Library</string>
-
-    <string-array name="admin_entities">
-        <item>Users</item>
-        <item>Books</item>
-        <item>Authors</item>
-    </string-array>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="auth_error">Authentication error</string>
+    <string name="error_enter_email_password">Please enter email and password</string>
+    <string name="error_fill_all_fields">Please fill all fields</string>
+    <string name="error_passwords_do_not_match">Passwords do not match</string>
+    <string name="button_sign_in_with_google">Sign in with Google</string>
+    <string name="error_google_sign_in">Google sign-in failed</string>
+    <string name="default_web_client_id">8259215165-cln5phfc0evetbol0evgsel5toauieab.apps.googleusercontent.com</string>
 </resources>

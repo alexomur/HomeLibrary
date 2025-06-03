@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Домашняя библиотека</string>
-
-    <string-array name="admin_entities">
-        <item>Пользователи</item>
-        <item>Книги</item>
-        <item>Авторы</item>
-    </string-array>
+    <string name="auth_error">Ошибка авторизации</string>
+    <string name="error_enter_email_password">Введите e-mail и пароль</string>
+    <string name="error_fill_all_fields">Заполните все поля</string>
+    <string name="error_passwords_do_not_match">Пароли не совпадают</string>
+    <string name="button_sign_in_with_google">Войти через Google</string>
+    <string name="error_google_sign_in">Ошибка входа через Google</string>
+    <string name="default_web_client_id">8259215165-cln5phfc0evetbol0evgsel5toauieab.apps.googleusercontent.com</string>
 </resources>
