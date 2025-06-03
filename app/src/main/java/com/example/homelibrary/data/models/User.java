@@ -1,4 +1,4 @@
-package com.example.homelibrary.models;
+package com.example.homelibrary.data.models;
 
 import java.util.List;
 

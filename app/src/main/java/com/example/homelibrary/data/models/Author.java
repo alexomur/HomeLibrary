@@ -1,6 +1,5 @@
-package com.example.homelibrary.models;
+package com.example.homelibrary.data.models;
 
-import androidx.annotation.Nullable;
 import java.util.List;
 
 /**

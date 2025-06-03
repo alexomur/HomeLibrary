@@ -15,14 +15,13 @@
         android:theme="@style/Theme.HomeLibrary"
         tools:targetApi="31">
         <activity
-            android:name=".AdminPanel"
+            android:name=".ui.auth.AuthActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
