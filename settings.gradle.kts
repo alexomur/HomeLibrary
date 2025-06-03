@@ -10,7 +10,12 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+
+    plugins {
+        id("androidx.navigation.safeargs") version "2.9.0"
+    }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -21,4 +26,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "HomeLibrary"
 include(":app")
- 
