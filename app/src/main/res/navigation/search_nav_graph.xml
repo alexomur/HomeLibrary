@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.homelibrary.ui.search.SearchFragment"
+        android:name="com.example.homelibrary.ui.main.HomeHostFragment"
         android:label="Поиск">
         <action
             android:id="@+id/action_search_to_results"
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/searchResultsFragment"
-        android:name="com.example.homelibrary.ui.search.SearchResultsFragment"
+        android:name="com.example.homelibrary.ui.main.HomeHostFragment"
         android:label="Результаты поиска">
         <argument
             android:name="query"
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/bookDetailFromSearchFragment"
-        android:name="com.example.homelibrary.ui.search.BookDetailFromSearchFragment"
+        android:name="com.example.homelibrary.ui.main.HomeHostFragment"
         android:label="Детали книги (Поиск)">
         <argument
             android:name="bookId"

@@ -1,6 +1,5 @@
 package com.example.homelibrary.ui.auth;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -12,11 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.homelibrary.R;
-import com.example.homelibrary.ui.main.HomeActivity;
+import com.example.homelibrary.data.AuthManager;
 
 /**
- * Base fragment that handles {@link AuthViewModel} state and navigation
- * for both Login and Register screens.
+ * Base fragment that handles AuthViewModel state and navigation
+ * for both Login and Register screens. On success, notifies MainActivity.
  */
 public abstract class AuthFragment extends Fragment {
 
@@ -26,7 +25,6 @@ public abstract class AuthFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         progressBar = view.findViewById(R.id.progress_bar);
         viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
@@ -37,7 +35,7 @@ public abstract class AuthFragment extends Fragment {
                     break;
                 case SUCCESS:
                     setProgress(false);
-                    launchHomeAndFinish();
+                    notifyHostSuccess();
                     break;
                 case ERROR:
                     setProgress(false);
@@ -50,18 +48,31 @@ public abstract class AuthFragment extends Fragment {
     }
 
     private void setProgress(boolean show) {
-        if (progressBar != null) progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        if (progressBar != null) {
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
     }
 
-    private void launchHomeAndFinish() {
-        if (getActivity() == null) return;
-        var intent = new Intent(getActivity(), HomeActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+    /**
+     * Notify hosting Activity that login/register succeeded.
+     */
+    private void notifyHostSuccess() {
+        if (getActivity() instanceof NavigationListener) {
+            ((NavigationListener) getActivity()).onNeedShowHome();
+        }
     }
 
     protected void showError(@Nullable String message) {
-        if (message == null || message.isEmpty()) message = getString(R.string.auth_error);
+        if (message == null || message.isEmpty()) {
+            message = getString(R.string.auth_error);
+        }
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Interface to notify MainActivity to show HomeHostFragment.
+     */
+    public interface NavigationListener {
+        void onNeedShowHome();
     }
 }
