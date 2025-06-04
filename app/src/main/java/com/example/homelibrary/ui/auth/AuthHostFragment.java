@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.example.homelibrary.R;
 
 /**
+ * UI auth fragment.
  * Hosts the NavHostFragment for authentication flow.
  */
 public class AuthHostFragment extends Fragment {
