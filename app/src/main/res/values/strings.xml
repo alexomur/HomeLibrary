@@ -18,4 +18,7 @@
     <string name="unknown_author">Unknown author</string>
     <string name="download_failed">Download failed</string>
     <string name="no_pdf_reader">No PDF reader found</string>
+
+    <string name="search_hint">Search…</string>
+    <string name="error_loading_books">Failed to load books</string>
 </resources>
