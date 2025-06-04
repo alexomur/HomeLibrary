@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.homelibrary.R;
-import com.example.homelibrary.ui.feed.BookFeedFragment;
 
 /**
  * Library container with Toolbar search and embedded BookFeedFragment.
