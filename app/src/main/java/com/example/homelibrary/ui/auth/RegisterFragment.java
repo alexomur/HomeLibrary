@@ -15,22 +15,15 @@ import androidx.navigation.Navigation;
 
 import com.example.homelibrary.R;
 
-/**
- * Handles user registration flow. Extends AuthFragment for shared authentication logic.
- */
+/** Email-password sign-up screen. */
 public class RegisterFragment extends AuthFragment {
-
-    private EditText etEmail;
-    private EditText etPassword;
-    private EditText etConfirmPassword;
-    private Button btnRegister;
-    private TextView txtToLogin;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_register, container, false);
     }
 
@@ -38,33 +31,30 @@ public class RegisterFragment extends AuthFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        etEmail = view.findViewById(R.id.et_email);
-        etPassword = view.findViewById(R.id.et_password);
-        etConfirmPassword = view.findViewById(R.id.et_confirm_password);
-        btnRegister = view.findViewById(R.id.btn_register);
-        txtToLogin = view.findViewById(R.id.tv_go_to_login);
+        EditText email = view.findViewById(R.id.et_email);
+        EditText pass = view.findViewById(R.id.et_password);
+        EditText confirm = view.findViewById(R.id.et_confirm_password);
+        Button signUp = view.findViewById(R.id.btn_register);
+        TextView goToLog = view.findViewById(R.id.tv_go_to_login);
 
-        btnRegister.setOnClickListener(v -> {
-            String email = etEmail.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
-            String confirmPass = etConfirmPassword.getText().toString().trim();
+        signUp.setOnClickListener(v -> {
+            var e = email.getText().toString().trim();
+            var p1 = pass.getText().toString().trim();
+            var p2 = confirm.getText().toString().trim();
 
-            if (TextUtils.isEmpty(email) ||
-                    TextUtils.isEmpty(password) ||
-                    TextUtils.isEmpty(confirmPass)) {
+            if (TextUtils.isEmpty(e) || TextUtils.isEmpty(p1) || TextUtils.isEmpty(p2)) {
                 showError(getString(R.string.error_fill_all_fields));
                 return;
             }
-            if (!password.equals(confirmPass)) {
+            if (!p1.equals(p2)) {
                 showError(getString(R.string.error_passwords_do_not_match));
                 return;
             }
-            viewModel.register(email, password);
+            viewModel.register(e, p1);
         });
 
-        txtToLogin.setOnClickListener(v ->
-                Navigation.findNavController(view)
-                        .navigate(R.id.action_registerFragment_to_loginFragment)
+        goToLog.setOnClickListener(v ->
+                Navigation.findNavController(v).navigate(R.id.action_register_to_login)
         );
     }
 }

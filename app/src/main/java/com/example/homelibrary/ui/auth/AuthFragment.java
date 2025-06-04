@@ -1,5 +1,6 @@
 package com.example.homelibrary.ui.auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -8,18 +9,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.homelibrary.R;
+import com.example.homelibrary.ui.main.HomeActivity;
 
 /**
- * Abstract fragment containing shared logic for Login and Register
- * <p>
- *  Subclasses should:
- * <p>  - In onViewCreated(), find their own Views (EditText, Button, etc.).
- * <p>  - Attach viewModel.login(...) or viewModel.register(...) to their button clicks.
- * <p>  - (Optionally) override onAuthSuccess() if different post-auth logic is needed.
+ * Base fragment that handles {@link AuthViewModel} state and navigation
+ * for both Login and Register screens.
  */
 public abstract class AuthFragment extends Fragment {
 
@@ -30,69 +27,41 @@ public abstract class AuthFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 1) Find the common ProgressBar in the fragment layout
         progressBar = view.findViewById(R.id.progress_bar);
-
-        // 2) Initialize the ViewModel
         viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
-        // 3) Observe LiveData<Status> from the ViewModel
-        viewModel.getStatus().observe(getViewLifecycleOwner(), new Observer<AuthViewModel.Status>() {
-            @Override
-            public void onChanged(AuthViewModel.Status status) {
-                switch (status) {
-                    case LOADING:
-                        if (progressBar != null) {
-                            progressBar.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    case SUCCESS:
-                        if (progressBar != null) {
-                            progressBar.setVisibility(View.GONE);
-                        }
-                        onAuthSuccess();
-                        break;
-                    case ERROR:
-                        if (progressBar != null) {
-                            progressBar.setVisibility(View.GONE);
-                        }
-                        String err = viewModel.getErrorMessage().getValue();
-                        if (err == null || err.isEmpty()) {
-                            err = getString(R.string.auth_error);
-                        }
-                        showError(err);
-                        break;
-                    case IDLE:
-                    default:
-                        if (progressBar != null) {
-                            progressBar.setVisibility(View.GONE);
-                        }
-                        break;
-                }
+        viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
+            switch (status) {
+                case LOADING:
+                    setProgress(true);
+                    break;
+                case SUCCESS:
+                    setProgress(false);
+                    launchHomeAndFinish();
+                    break;
+                case ERROR:
+                    setProgress(false);
+                    showError(viewModel.getErrorMessage().getValue());
+                    break;
+                default:
+                    setProgress(false);
             }
         });
     }
 
-    /**
-     * Called when authentication (login/register) succeeds.
-     * By default, finishes AuthActivity, returning to HomeActivity.
-     * Subclasses may override for custom behavior.
-     */
-    protected void onAuthSuccess() {
-        if (getActivity() != null) {
-            getActivity().finish();
-        }
+    private void setProgress(boolean show) {
+        if (progressBar != null) progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    /**
-     * Displays an error message via Toast.
-     * Subclasses may override to show errors differently.
-     *
-     * @param message the error text to display
-     */
-    protected void showError(String message) {
-        if (getContext() != null) {
-            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-        }
+    private void launchHomeAndFinish() {
+        if (getActivity() == null) return;
+        var intent = new Intent(getActivity(), HomeActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    protected void showError(@Nullable String message) {
+        if (message == null || message.isEmpty()) message = getString(R.string.auth_error);
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
     }
 }

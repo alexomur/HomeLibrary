@@ -15,21 +15,15 @@ import androidx.navigation.Navigation;
 
 import com.example.homelibrary.R;
 
-/**
- * Handles user login flow. Extends AuthFragment for shared authentication logic.
- */
+/** Standard email-password sign-in screen. */
 public class LoginFragment extends AuthFragment {
-
-    private EditText etEmail;
-    private EditText etPassword;
-    private Button btnLogin;
-    private TextView txtToRegister;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
 
@@ -37,29 +31,23 @@ public class LoginFragment extends AuthFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        etEmail = view.findViewById(R.id.et_email);
-        etPassword = view.findViewById(R.id.et_password);
-        btnLogin = view.findViewById(R.id.btn_login);
-        txtToRegister = view.findViewById(R.id.tv_go_to_register);
+        EditText email = view.findViewById(R.id.et_email);
+        EditText password = view.findViewById(R.id.et_password);
+        Button signIn = view.findViewById(R.id.btn_login);
+        TextView goToReg = view.findViewById(R.id.tv_go_to_register);
 
-        if (viewModel.isUserLoggedIn()) {
-            requireActivity().finish();
-            return;
-        }
-
-        btnLogin.setOnClickListener(v -> {
-            String email = etEmail.getText().toString().trim();
-            String pass = etPassword.getText().toString().trim();
-            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass)) {
+        signIn.setOnClickListener(v -> {
+            var e = email.getText().toString().trim();
+            var p = password.getText().toString().trim();
+            if (TextUtils.isEmpty(e) || TextUtils.isEmpty(p)) {
                 showError(getString(R.string.error_enter_email_password));
                 return;
             }
-            viewModel.login(email, pass);
+            viewModel.login(e, p);
         });
 
-        txtToRegister.setOnClickListener(v ->
-                Navigation.findNavController(view)
-                        .navigate(R.id.action_loginFragment_to_registerFragment)
+        goToReg.setOnClickListener(v ->
+                Navigation.findNavController(v).navigate(R.id.action_login_to_register)
         );
     }
 }
