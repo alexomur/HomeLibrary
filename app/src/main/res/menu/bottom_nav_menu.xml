@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- ID пунктов должен точно совпадать с ID фрагментов в bottom_nav_graph.xml -->
+    <item
+        android:id="@+id/libraryFragment"
+        android:icon="@drawable/ic_library"
+        android:title="Библиотека" />
+
+    <item
+        android:id="@+id/cartFragment"
+        android:icon="@drawable/ic_cart"
+        android:title="Корзина" />
+
+    <item
+        android:id="@+id/myBooksFragment"
+        android:icon="@drawable/ic_my_books"
+        android:title="Мои книги" />
+
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_profile"
+        android:title="Профиль" />
+
+    <item
+        android:id="@+id/familyFragment"
+        android:icon="@drawable/ic_family"
+        android:title="Семья" />
+</menu>

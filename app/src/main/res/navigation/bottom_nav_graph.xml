@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_nav_graph"
+    app:startDestination="@id/libraryFragment">
+
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.example.homelibrary.ui.main.fragments.LibraryFragment"
+        android:label="Library"/>
+
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.homelibrary.ui.main.fragments.CartFragment"
+        android:label="Cart"/>
+
+    <fragment
+        android:id="@+id/myBooksFragment"
+        android:name="com.example.homelibrary.ui.main.fragments.MyBooksFragment"
+        android:label="My Books"/>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.homelibrary.ui.main.fragments.ProfileFragment"
+        android:label="Profile"/>
+
+    <fragment
+        android:id="@+id/familyFragment"
+        android:name="com.example.homelibrary.ui.main.fragments.FamilyFragment"
+        android:label="Family"/>
+
+    <include app:graph="@navigation/search_nav_graph"/>
+</navigation>
