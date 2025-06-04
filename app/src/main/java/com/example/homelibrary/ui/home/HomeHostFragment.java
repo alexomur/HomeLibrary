@@ -47,21 +47,5 @@ public class HomeHostFragment extends Fragment {
         BottomNavigationView bottom = view.findViewById(R.id.bottom_navigation);
         bottom.setLabelVisibilityMode(BottomNavigationView.LABEL_VISIBILITY_LABELED);
         NavigationUI.setupWithNavController(bottom, navController);
-
-        SearchView search = view.findViewById(R.id.search_view);
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Bundle args = new Bundle();
-                args.putString("query", query);
-                navController.navigate(R.id.search_nav_graph, args);
-                search.clearFocus();
-                return true;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
     }
 }
