@@ -5,19 +5,14 @@ import com.example.homelibrary.data.models.Book;
 import com.example.homelibrary.data.models.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.io.File;
 
 /**
- * Manages low-level interactions with Firebase Realtime Database and Storage.
- * Handles creation and updates of User, Author, and Book records,
- * as well as uploading and downloading book files.
+ * Manages low-level interactions with Firebase Realtime Database.
+ * Все операции со Storage удалены, т.к. теперь загрузку и скачивание файлов
+ * мы делаем самостоятельно через BookDownloadManager.
  */
 public class DBManager {
+
     private static final String USERS   = "users";
     private static final String AUTHORS = "authors";
     private static final String BOOKS   = "books";
@@ -25,11 +20,9 @@ public class DBManager {
     private static DBManager instance;
 
     private final DatabaseReference db;
-    private final FirebaseStorage storage;
 
     private DBManager() {
         db = FirebaseDatabase.getInstance().getReference();
-        storage = FirebaseStorage.getInstance();
     }
 
     /**
@@ -57,7 +50,7 @@ public class DBManager {
 
     /**
      * Updates a single field for an existing user.
-     * For example, updating display name or downloadedBooks list.
+     * For example, updating display name or downloadedBooks map.
      *
      * @param userId identifier of the user to update
      * @param key    the child key under "users/{userId}" to update
@@ -89,13 +82,13 @@ public class DBManager {
         db.child(AUTHORS).child(authorId).child(key).setValue(value);
     }
 
-    // ====== Book operations and Storage ======
+    // ====== Book metadata operations ======
 
     /**
      * Saves book metadata under the "books/{bookId}" path.
-     * File bytes must be uploaded separately via {@link #uploadBookFile(Book, byte[])}.
+     * Файл загружается отдельно через BookDownloadManager.
      *
-     * @param book a Book model containing id, title, description, genre, authorIds, and storagePath
+     * @param book a Book model containing id, title, description, genre, authorIds, и downloadLink
      */
     public void saveBookMetadata(Book book) {
         db.child(BOOKS).child(book.id).setValue(book);
@@ -105,47 +98,11 @@ public class DBManager {
      * Uploads raw book bytes to Firebase Storage. Once a download URL is obtained,
      * the method saves the Book metadata in Realtime Database.
      *
-     * @param book      Book model whose storagePath field specifies the Storage location
-     * @param fileBytes byte array of the book file to upload
-     * @return UploadTask to monitor upload progress
+     * @param bookId identifier of the book to update
+     * @param key    the child key under "books/{bookId}" to update
+     * @param value  new value to set at that key
      */
-    public UploadTask uploadBookFile(Book book, byte[] fileBytes) {
-        StorageReference ref = storage.getReference().child(book.storagePath);
-        UploadTask task = ref.putBytes(fileBytes);
-        task.continueWithTask(taskSnapshot -> ref.getDownloadUrl())
-                .addOnSuccessListener(uri -> saveBookMetadata(book));
-        return task;
-    }
-
-    /**
-     * Downloads a book file from Firebase Storage to a local file.
-     * Upon successful download, records the download under the user's profile.
-     *
-     * @param storagePath path of the file in Firebase Storage (e.g., "books/{id}.pdf")
-     * @param localFile   destination File on the device
-     * @param userId      identifier of the user who is downloading
-     * @param bookId      identifier of the book being downloaded
-     * @return FileDownloadTask to monitor download progress
-     */
-    public FileDownloadTask downloadBookFile(String storagePath, File localFile, String userId, String bookId) {
-        StorageReference ref = storage.getReference().child(storagePath);
-        FileDownloadTask task = ref.getFile(localFile);
-        task.addOnSuccessListener(snapshot -> recordDownload(userId, bookId));
-        return task;
-    }
-
-    /**
-     * Records in Realtime Database that a user has downloaded a specific book.
-     * Creates a true value at "users/{userId}/downloadedBooks/{bookId}".
-     *
-     * @param userId identifier of the user
-     * @param bookId identifier of the book that was downloaded
-     */
-    private void recordDownload(String userId, String bookId) {
-        db.child(USERS)
-                .child(userId)
-                .child("downloadedBooks")
-                .child(bookId)
-                .setValue(true);
+    public void updateBookField(String bookId, String key, Object value) {
+        db.child(BOOKS).child(bookId).child(key).setValue(value);
     }
 }

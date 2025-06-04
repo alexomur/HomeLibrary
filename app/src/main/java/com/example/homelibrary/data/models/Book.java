@@ -33,9 +33,14 @@ public class Book {
     public List<String> authorIds;
 
     /**
-     * Path in Firebase Storage where the book is stored (e.g. "books/{id}.pdf").
+     * Link to download the book.
      */
-    public String storagePath;
+    public String downloadUrl;
+
+    /**
+     * Link to image of book cover.
+     */
+    public String imageUrl;
 
     /**
      * Default constructor required for Firebase deserialization.
@@ -50,15 +55,16 @@ public class Book {
      * @param description Book summary
      * @param genre       Book genre
      * @param authorIds   List of related author IDs
-     * @param storagePath Storage path of the book file in Firebase Storage
+     * @param downloadUrl Storage path of the book file in Firebase Storage
      */
     public Book(String id, String title, String description, String genre,
-                List<String> authorIds, String storagePath) {
+                List<String> authorIds, String downloadUrl, String imageUrl) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.genre = genre;
         this.authorIds = authorIds;
-        this.storagePath = storagePath;
+        this.downloadUrl = downloadUrl;
+        this.imageUrl = imageUrl;
     }
 }

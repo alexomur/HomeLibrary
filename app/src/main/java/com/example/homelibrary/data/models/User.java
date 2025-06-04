@@ -1,6 +1,6 @@
 package com.example.homelibrary.data.models;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a user in the HomeLibrary application.
@@ -18,9 +18,9 @@ public class User {
     public String email;
 
     /**
-     * List of book IDs that the user has downloaded.
+     * Map of book IDs to the page offset where the user stopped.
      */
-    public List<String> downloadedBooks;
+    public Map<String, Integer> downloadedBooks;
 
     /**
      * Default constructor required for Firebase deserialization.
