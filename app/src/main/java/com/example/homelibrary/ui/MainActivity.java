@@ -10,7 +10,7 @@ import com.example.homelibrary.R;
 import com.example.homelibrary.data.AuthManager;
 import com.example.homelibrary.ui.auth.AuthHostFragment;
 import com.example.homelibrary.ui.auth.AuthFragment.NavigationListener;
-import com.example.homelibrary.ui.main.HomeHostFragment;
+import com.example.homelibrary.ui.home.HomeHostFragment;
 
 /**
  * Single entry Activity. Shows AuthHostFragment or HomeHostFragment

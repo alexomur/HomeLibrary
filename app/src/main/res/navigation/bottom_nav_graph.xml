@@ -6,11 +6,11 @@
 
     <fragment
         android:id="@+id/libraryFragment"
-        android:name="com.example.homelibrary.ui.main.LibraryFragment"
+        android:name="com.example.homelibrary.ui.home.LibraryFragment"
         android:label="Library"/>
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.homelibrary.ui.main.ProfileFragment"
+        android:name="com.example.homelibrary.ui.home.ProfileFragment"
         android:label="Profile"/>
 </navigation>

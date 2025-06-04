@@ -1,4 +1,4 @@
-package com.example.homelibrary.ui.main;
+package com.example.homelibrary.ui.home;
 
 import android.os.Bundle;
 
