@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -8,16 +9,28 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            android:visibility="invisible"
+            android:contentDescription="@string/back_button_desc"
+            android:padding="12dp" />
+
         <androidx.appcompat.widget.SearchView
             android:id="@+id/library_search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:queryHint="@string/search_hint"/>
+            android:queryHint="@string/search_hint"
+            android:iconifiedByDefault="false"
+            android:layout_marginStart="8dp" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/library_feed_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 </LinearLayout>

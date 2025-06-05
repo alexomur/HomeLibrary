@@ -3,47 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp">
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <!-- E-mail -->
         <EditText
             android:id="@+id/et_email"
-            android:hint="E-mail"
-            android:inputType="textEmailAddress"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- Пароль -->
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_email"
+            android:inputType="textEmailAddress" />
         <EditText
             android:id="@+id/et_password"
-            android:hint="Пароль"
-            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
-
-        <!-- Подтвердить пароль -->
+            android:layout_marginTop="16dp"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword" />
         <EditText
             android:id="@+id/et_confirm_password"
-            android:hint="Подтвердите пароль"
-            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
-
-        <!-- Кнопка Зарегистрироваться -->
+            android:layout_marginTop="16dp"
+            android:hint="@string/hint_confirm_password"
+            android:inputType="textPassword" />
         <Button
             android:id="@+id/btn_register"
-            android:text="Зарегистрироваться"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp" />
-
-        <!-- ProgressBar (скрыт по умолчанию) -->
+            android:layout_marginTop="24dp"
+            android:text="@string/button_register" />
         <ProgressBar
             android:id="@+id/progress_bar"
             android:visibility="gone"
@@ -51,15 +40,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_gravity="center" />
-
-        <!-- Ссылка “Уже есть аккаунт? Войти” -->
         <TextView
             android:id="@+id/tv_go_to_login"
-            android:text="Уже есть аккаунт? Войти"
-            android:textColor="?attr/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp" />
-
+            android:layout_marginTop="24dp"
+            android:text="@string/text_go_to_login"
+            android:textColor="?attr/colorPrimary" />
     </LinearLayout>
 </ScrollView>

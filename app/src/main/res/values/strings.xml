@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Home Library</string>
     <string name="auth_error">Authentication error</string>
@@ -5,8 +6,10 @@
     <string name="error_fill_all_fields">Please fill all fields</string>
     <string name="error_passwords_do_not_match">Passwords do not match</string>
     <string name="button_sign_in_with_google">Sign in with Google</string>
+
     <string name="library">Library</string>
     <string name="profile">Profile</string>
+
     <string name="error_google_sign_in">Google sign-in failed</string>
     <string name="default_web_client_id">8259215165-cln5phfc0evetbol0evgsel5toauieab.apps.googleusercontent.com</string>
 
@@ -30,4 +33,14 @@
     <string name="choose_avatar">Select avatar image</string>
     <string name="change_language">Change language</string>
     <string name="logout">Log out</string>
+
+    <string name="back_button_desc">Back</string>
+
+    <string name="hint_email">E-mail</string>
+    <string name="hint_password">Пароль</string>
+    <string name="hint_confirm_password">Подтвердите пароль</string>
+    <string name="button_register">Зарегистрироваться</string>
+    <string name="text_go_to_login">Уже есть аккаунт? Войти</string>
+    <string name="button_login">Войти</string>
+    <string name="text_go_to_register">Нет аккаунта? Зарегистрироваться</string>
 </resources>
