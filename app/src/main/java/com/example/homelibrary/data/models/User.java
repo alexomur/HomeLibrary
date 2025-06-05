@@ -1,10 +1,7 @@
 package com.example.homelibrary.data.models;
 
-import java.util.Map;
-
 /**
  * Represents a user in the HomeLibrary application.
- * This model is used for interactions with the database.
  */
 public class User {
     /**
@@ -18,9 +15,12 @@ public class User {
     public String email;
 
     /**
-     * Map of book IDs to the page offset where the user stopped.
+     * Display nickname.
      */
-    public Map<String, Integer> downloadedBooks;
+    public String nickname;
+
+    /** Remote avatar url (may be null). */
+    public String avatarUrl;
 
     /**
      * Default constructor required for Firebase deserialization.
@@ -34,7 +34,16 @@ public class User {
      * @param email User's email address
      */
     public User(String uid, String email) {
+        this(uid, email, null, null);
+    }
+
+    /** Full ctor. */
+    public User(String uid, String email, String nickname, String avatarUrl) {
         this.uid = uid;
         this.email = email;
+        this.nickname = (nickname == null || nickname.isEmpty())
+                ? (email != null ? email.split("@")[0] : "user")
+                : nickname;
+        this.avatarUrl = avatarUrl;
     }
 }

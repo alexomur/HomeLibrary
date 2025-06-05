@@ -17,6 +17,12 @@
         android:name="com.example.homelibrary.ui.home.ProfileFragment"
         android:label="Profile"/>
 
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.homelibrary.ui.home.SettingsFragment"
+        android:label="Settings"/>
+
     <fragment
         android:id="@+id/bookDetailFragment"
         android:name="com.example.homelibrary.ui.book.BookDetailFragment"

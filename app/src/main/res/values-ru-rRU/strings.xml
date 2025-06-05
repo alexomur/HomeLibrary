@@ -6,6 +6,9 @@
     <string name="error_passwords_do_not_match">Пароли не совпадают</string>
     <string name="button_sign_in_with_google">Войти через Google</string>
     <string name="error_google_sign_in">Ошибка входа через Google</string>
+    <string name="library">Библиотека</string>
+    <string name="profile">Профиль</string>
+    <string name="default_web_client_id">8259215165-cln5phfc0evetbol0evgsel5toauieab.apps.googleusercontent.com</string>
 
     <string name="book_cover_desc">Обложка книги</string>
     <string name="title_placeholder">Загрузка названия…</string>
@@ -17,7 +20,14 @@
     <string name="unknown_author">Автор неизвестен</string>
     <string name="download_failed">Не удалось загрузить</string>
     <string name="no_pdf_reader">Нет приложения для чтения PDF</string>
+    <string name="error_loading_books">Не удалось загрузить книги</string>
 
     <string name="search_hint">Поиск…</string>
-    <string name="error_loading_books">Не удалось загрузить книги</string>
+
+    <string name="edit_nickname">Изменить никнейм</string>
+    <string name="edit_email">Изменить e-mail</string>
+    <string name="edit_avatar">Изменить аватар</string>
+    <string name="choose_avatar">Выберите изображение</string>
+    <string name="change_language">Сменить язык</string>
+    <string name="logout">Выйти</string>
 </resources>

@@ -1,0 +1,28 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:key="pref_nick"
+        android:title="@string/edit_nickname"
+        android:iconSpaceReserved="false"/>
+
+    <EditTextPreference
+        android:key="pref_email"
+        android:title="@string/edit_email"
+        android:iconSpaceReserved="false"
+        android:inputType="textEmailAddress"/>
+
+    <Preference
+        android:key="pref_avatar"
+        android:title="@string/edit_avatar"
+        android:iconSpaceReserved="false"/>
+
+    <Preference
+        android:key="pref_lang"
+        android:title="@string/change_language"
+        android:icon="@android:drawable/ic_menu_manage"/>
+
+    <Preference
+        android:key="pref_logout"
+        android:title="@string/logout"
+        android:iconSpaceReserved="false"/>
+</PreferenceScreen>

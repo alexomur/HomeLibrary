@@ -3,21 +3,20 @@ package com.example.homelibrary.data;
 import com.example.homelibrary.data.models.Author;
 import com.example.homelibrary.data.models.Book;
 import com.example.homelibrary.data.models.User;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Manages low-level interactions with Firebase Realtime Database.
- * Все операции со Storage удалены, т.к. теперь загрузку и скачивание файлов
- * мы делаем самостоятельно через BookDownloadManager.
  */
 public class DBManager {
 
-    private static final String USERS   = "users";
-    private static final String AUTHORS = "authors";
-    private static final String BOOKS   = "books";
-
     private static DBManager instance;
+
+    private static final String USERS = "users";
+    private static final String AUTHORS = "authors";
+    private static final String BOOKS = "books";
 
     private final DatabaseReference db;
 
@@ -49,15 +48,10 @@ public class DBManager {
     }
 
     /**
-     * Updates a single field for an existing user.
-     * For example, updating display name or downloadedBooks map.
-     *
-     * @param userId identifier of the user to update
-     * @param key    the child key under "users/{userId}" to update
-     * @param value  new value to set at that key
+     * Updates given field of User object under the "users/{uid}" path.
      */
-    public void updateUserField(String userId, String key, Object value) {
-        db.child(USERS).child(userId).child(key).setValue(value);
+    public Task<Void> updateUserField(String userId, String key, Object value) {
+        return db.child(USERS).child(userId).child(key).setValue(value);
     }
 
     // ====== Author operations ======
@@ -71,22 +65,14 @@ public class DBManager {
         db.child(AUTHORS).child(author.id).setValue(author);
     }
 
-    /**
-     * Updates a single field for an existing author.
-     *
-     * @param authorId identifier of the author to update
-     * @param key      the child key under "authors/{authorId}" to update
-     * @param value    new value to set at that key
-     */
-    public void updateAuthorField(String authorId, String key, Object value) {
-        db.child(AUTHORS).child(authorId).child(key).setValue(value);
+    public Task<Void> updateAuthorField(String authorId, String key, Object value) {
+        return db.child(AUTHORS).child(authorId).child(key).setValue(value);
     }
 
     // ====== Book metadata operations ======
 
     /**
      * Saves book metadata under the "books/{bookId}" path.
-     * Файл загружается отдельно через BookDownloadManager.
      *
      * @param book a Book model containing id, title, description, genre, authorIds, и downloadLink
      */

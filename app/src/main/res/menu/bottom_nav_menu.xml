@@ -3,10 +3,10 @@
     <item
         android:id="@+id/libraryFragment"
         android:icon="@drawable/ic_library"
-        android:title="Библиотека" />
+        android:title="@string/library" />
 
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_profile"
-        android:title="Профиль" />
+        android:title="@string/profile" />
 </menu>

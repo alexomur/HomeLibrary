@@ -19,6 +19,7 @@ import com.example.homelibrary.data.models.Book;
 public class BookDownloadManager {
 
     private static BookDownloadManager instance;
+
     private final Context context;
     private final DownloadManager systemDownloadManager;
     private long lastDownloadId = -1;

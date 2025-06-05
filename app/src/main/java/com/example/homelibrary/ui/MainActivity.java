@@ -46,4 +46,12 @@ public class MainActivity extends AppCompatActivity implements NavigationListene
     public void onNeedShowHome() {
         showHome();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (AuthManager.getInstance().getCurrentUser() == null) {
+            showAuth();
+        }
+    }
 }

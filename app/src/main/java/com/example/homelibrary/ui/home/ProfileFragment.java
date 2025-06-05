@@ -1,66 +1,104 @@
 package com.example.homelibrary.ui.home;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.bumptech.glide.Glide;
 import com.example.homelibrary.R;
+import com.example.homelibrary.data.AuthManager;
+import com.example.homelibrary.data.models.User;
+import com.example.homelibrary.ui.common.AvatarUtil;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Profile header + embedded SettingsFragment below.
  */
 public class ProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private ImageView avatarView;
+    private TextView nicknameView;
+    private TextView emailView;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private DatabaseReference userRef;
+    private ValueEventListener userListener;
 
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inf,
+                             @Nullable ViewGroup parent,
+                             @Nullable Bundle state) {
+        return inf.inflate(R.layout.fragment_profile, parent, false);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
+        avatarView   = v.findViewById(R.id.profile_avatar);
+        nicknameView = v.findViewById(R.id.profile_nickname);
+        emailView    = v.findViewById(R.id.profile_email);
+
+        if (savedInstanceState == null) {
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.replace(R.id.settings_container, new SettingsFragment());
+            ft.commit();
+        }
+
+        subscribeUser();
+    }
+
+    private void subscribeUser() {
+        if (AuthManager.getInstance().getCurrentUser() == null) return;
+        String uid = AuthManager.getInstance().getCurrentUser().getUid();
+        userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
+
+        userListener = new ValueEventListener() {
+            @Override public void onDataChange(@NonNull DataSnapshot ds) {
+                if (!isAdded()) return;
+                User u = ds.getValue(User.class);
+                if (u != null) bind(u);
+            }
+            @Override public void onCancelled(@NonNull DatabaseError e) { }
+        };
+        userRef.addValueEventListener(userListener);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (userRef != null && userListener != null) {
+            userRef.removeEventListener(userListener);
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+    private void bind(@NonNull User u) {
+        String nick = (u.nickname != null && !u.nickname.isEmpty())
+                ? u.nickname
+                : (u.email != null ? u.email.split("@")[0] : "user");
+        nicknameView.setText(nick);
+        emailView.setText(u.email != null ? u.email : "");
+
+        if (u.avatarUrl != null && !u.avatarUrl.isEmpty()) {
+            Glide.with(this).load(u.avatarUrl)
+                    .placeholder(R.drawable.placeholder_avatar)
+                    .circleCrop()
+                    .into(avatarView);
+        } else {
+            Bitmap bmp = AvatarUtil.create(requireContext(),
+                    String.valueOf(nick.charAt(0)), 96);
+            avatarView.setImageBitmap(bmp);
+        }
     }
 }
